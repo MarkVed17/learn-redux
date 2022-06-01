@@ -1,9 +1,11 @@
 const redux = require("redux"); // import redux
 const createStore = redux.createStore; // import the createStore redux method
-const bindActionCreators = redux.bindActionCreators
+const bindActionCreators = redux.bindActionCreators;
 
 const CAKE_ORDERED = "CAKE_ORDERED"; // string constant
 const CAKE_RESTOCKED = "CAKE_RESTOCKED";
+const ICECREAM_ORDERED = "ICECREAM_ORDERED";
+const ICECREAM_RESTOCKED = "ICECREAM_RESTOCKED";
 
 // Action Creator
 function orderCake() {
@@ -21,13 +23,65 @@ function restockCake(qty = 1) {
   };
 }
 
+function orderIceCream(qty = 1) {
+  return {
+    type: ICECREAM_ORDERED,
+    payload: qty,
+  };
+}
+
+function restockIceCream(qty = 1) {
+  return {
+    type: ICECREAM_RESTOCKED,
+    payload: qty,
+  };
+}
+
 // initial state
-const inititalState = {
+// const inititalState = {
+//   numberOfCakes: 10,
+//   numberOfIceCreams: 20,
+// };
+
+// cake intital state
+const initialCakeState = {
   numberOfCakes: 10,
 };
 
+const initialIceCreamState = {
+  numberOfIceCreams: 20,
+};
+
 // reducer function
-const reducer = (state = inititalState, action) => {
+// const reducer = (state = inititalState, action) => {
+//   switch (action.type) {
+//     case CAKE_ORDERED:
+//       return {
+//         ...state, // spread operator to make a copy of all the properties
+//         numberOfCakes: state.numberOfCakes - 1,
+//       };
+//     case CAKE_RESTOCKED:
+//       return {
+//         ...state,
+//         numberOfCakes: state.numberOfCakes + action.payload,
+//       };
+//     case ICECREAM_ORDERED:
+//       return {
+//         ...state,
+//         numberOfIceCreams: state.numberOfIceCreams - 1,
+//       };
+//     case ICECREAM_RESTOCKED:
+//       return {
+//         ...state,
+//         numberOfIceCreams: state.numberOfIceCreams + action.payload,
+//       };
+//     default:
+//       return state;
+//   }
+// };
+
+// Split the main reducer into cake & icecream reducers
+const cakeReducer = (state = inititalCakeState, action) => {
   switch (action.type) {
     case CAKE_ORDERED:
       return {
@@ -44,10 +98,27 @@ const reducer = (state = inititalState, action) => {
   }
 };
 
+const iceCreamReducer = (state = inititalIceCreamState, action) => {
+  switch (action.type) {
+    case ICECREAM_ORDERED:
+      return {
+        ...state,
+        numberOfIceCreams: state.numberOfIceCreams - 1,
+      };
+    case ICECREAM_RESTOCKED:
+      return {
+        ...state,
+        numberOfIceCreams: state.numberOfIceCreams + action.payload,
+      };
+    default:
+      return state;
+  }
+};
+
 // createStore takes an argument i.e. a reducer function,
 // And the reducer function itself has state as an argument.
 // This is how the redux store holds the application state.
-const store = createStore(reducer); // create a redux store
+const store = createStore(reducer); // create a redux store. There arises a problem as we have a cake & icecream reducer and we can only pass a single reducer function to createStore method.
 console.log("Initial state", store.getState()); // allows access to the current state of the application
 
 const unsubscribe = store.subscribe(() =>
@@ -59,11 +130,17 @@ const unsubscribe = store.subscribe(() =>
 // store.dispatch(orderCake());
 // store.dispatch(restockCake(3));
 
-const actions = bindActionCreators({orderCake, restockCake}, store.dispatch)
-actions.orderCake()
-actions.orderCake()
-actions.orderCake()
-actions.restockCake(3)
+const actions = bindActionCreators(
+  { orderCake, restockCake, orderIceCream, restockIceCream },
+  store.dispatch
+);
+actions.orderCake();
+actions.orderCake();
+actions.orderCake();
+actions.restockCake(3);
+actions.orderIceCream();
+actions.orderIceCream();
+actions.restockIceCream(2);
 
 unsubscribe();
 // None of the dispatches would work below the unsubscribe method
