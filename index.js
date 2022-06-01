@@ -1,5 +1,6 @@
 const redux = require("redux"); // import redux
 const createStore = redux.createStore; // import the createStore redux method
+const bindActionCreators = redux.bindActionCreators
 
 const CAKE_ORDERED = "CAKE_ORDERED"; // string constant
 const CAKE_RESTOCKED = "CAKE_RESTOCKED";
@@ -53,10 +54,16 @@ const unsubscribe = store.subscribe(() =>
   console.log("Update", store.getState())
 ); // register even listeners using subscribe()
 
-store.dispatch(orderCake()); // dispatch function takes an action creator function which in turn invokes an action
-store.dispatch(orderCake());
-store.dispatch(orderCake());
-store.dispatch(restockCake(3));
+// store.dispatch(orderCake()); // dispatch function takes an action creator function which in turn invokes an action
+// store.dispatch(orderCake());
+// store.dispatch(orderCake());
+// store.dispatch(restockCake(3));
+
+const actions = bindActionCreators({orderCake, restockCake}, store.dispatch)
+actions.orderCake()
+actions.orderCake()
+actions.orderCake()
+actions.restockCake(3)
 
 unsubscribe();
 // None of the dispatches would work below the unsubscribe method
