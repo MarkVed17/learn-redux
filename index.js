@@ -1,6 +1,7 @@
 const redux = require("redux"); // import redux
 const createStore = redux.createStore; // import the createStore redux method
 const bindActionCreators = redux.bindActionCreators;
+const combineReducers = redux.combineReducers;
 
 const CAKE_ORDERED = "CAKE_ORDERED"; // string constant
 const CAKE_RESTOCKED = "CAKE_RESTOCKED";
@@ -81,7 +82,7 @@ const initialIceCreamState = {
 // };
 
 // Split the main reducer into cake & icecream reducers
-const cakeReducer = (state = inititalCakeState, action) => {
+const cakeReducer = (state = initialCakeState, action) => {
   switch (action.type) {
     case CAKE_ORDERED:
       return {
@@ -98,7 +99,7 @@ const cakeReducer = (state = inititalCakeState, action) => {
   }
 };
 
-const iceCreamReducer = (state = inititalIceCreamState, action) => {
+const iceCreamReducer = (state = initialIceCreamState, action) => {
   switch (action.type) {
     case ICECREAM_ORDERED:
       return {
@@ -115,10 +116,15 @@ const iceCreamReducer = (state = inititalIceCreamState, action) => {
   }
 };
 
+const rootReducer = combineReducers({
+  cake: cakeReducer,
+  icecream: iceCreamReducer,
+});
+
 // createStore takes an argument i.e. a reducer function,
 // And the reducer function itself has state as an argument.
 // This is how the redux store holds the application state.
-const store = createStore(reducer); // create a redux store. There arises a problem as we have a cake & icecream reducer and we can only pass a single reducer function to createStore method.
+const store = createStore(rootReducer); // create a redux store. There arises a problem as we have a cake & icecream reducer and we can only pass a single reducer function to createStore method. It can be solved by combinedReducers method.
 console.log("Initial state", store.getState()); // allows access to the current state of the application
 
 const unsubscribe = store.subscribe(() =>
