@@ -8,3 +8,21 @@ function orderCake() {
     quantity: 1,
   };
 }
+
+// initial state
+const inititalState = {
+  numberOfCakes: 10,
+};
+
+// reducer function
+const reducer = (state = inititalState, action) => {
+  switch (action.type) {
+    case CAKE_ORDERED:
+      return {
+        ...state, // spread operator to make a copy of all the properties
+        numberOfCakes: state.numberOfCakes - 1,
+      };
+    default:
+      return state;
+  }
+};
