@@ -5,7 +5,7 @@ const initialState = {
 };
 
 const cakeSlice = createSlice({
-  name: cake,
+  name: "cake",
   initialState: initialState,
   // initialState,                                  This is a ES6 shorthand
   reducers: {
