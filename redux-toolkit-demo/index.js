@@ -4,7 +4,7 @@ const icecreamActions = require("./features/icecream/icecreamSlice").icecreamAct
 
 console.log("Initial State", store.getState());
 const unsubscribe = store.subscribe(() => {
-  console.log("Update State", store.getState());
+//   console.log("Update State", store.getState());    We now have a logger middleware attached to the store
 });
 
 store.dispatch(cakeActions.ordered());
