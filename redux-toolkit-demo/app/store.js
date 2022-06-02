@@ -1,9 +1,11 @@
 const configureStore = require("@reduxjs/toolkit").configureStore; // similar to createStore in redux
 const cakeReducer = require("../features/cake/cakeSlice");
+const icecreamReducer = require("../features/icecream/icecreamSlice");
 
 const store = configureStore({
   reducer: {
     cake: cakeReducer,
+    icecream: icecreamReducer,
   },
 });
 
