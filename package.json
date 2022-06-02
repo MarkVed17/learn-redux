@@ -18,8 +18,10 @@
   },
   "homepage": "https://github.com/MarkVed17/learn-redux#readme",
   "dependencies": {
+    "axios": "^0.27.2",
     "immer": "^9.0.14",
     "redux": "^4.2.0",
-    "redux-logger": "^3.0.6"
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.4.1"
   }
 }
