@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/MarkVed17/learn-redux#readme",
   "dependencies": {
+    "immer": "^9.0.14",
     "redux": "^4.2.0"
   }
 }
