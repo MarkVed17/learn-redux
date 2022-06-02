@@ -2,6 +2,9 @@ const redux = require("redux"); // import redux
 const createStore = redux.createStore; // import the createStore redux method
 const bindActionCreators = redux.bindActionCreators;
 const combineReducers = redux.combineReducers;
+const applyMiddleware = redux.applyMiddleware;
+const reduxLogger = require("redux-logger");
+const logger = reduxLogger.createLogger();
 
 const CAKE_ORDERED = "CAKE_ORDERED"; // string constant
 const CAKE_RESTOCKED = "CAKE_RESTOCKED";
@@ -124,12 +127,10 @@ const rootReducer = combineReducers({
 // createStore takes an argument i.e. a reducer function,
 // And the reducer function itself has state as an argument.
 // This is how the redux store holds the application state.
-const store = createStore(rootReducer); // create a redux store. There arises a problem as we have a cake & icecream reducer and we can only pass a single reducer function to createStore method. It can be solved by combinedReducers method.
+const store = createStore(rootReducer, applyMiddleware(logger)); // create a redux store. There arises a problem as we have a cake & icecream reducer and we can only pass a single reducer function to createStore method. It can be solved by combinedReducers method.
 console.log("Initial state", store.getState()); // allows access to the current state of the application
 
-const unsubscribe = store.subscribe(() =>
-  console.log("Update", store.getState())
-); // register even listeners using subscribe()
+const unsubscribe = store.subscribe(() => {}); // register even listeners using subscribe(). Removing the subscribe method, as we now have middleware to log our statements.
 
 // store.dispatch(orderCake()); // dispatch function takes an action creator function which in turn invokes an action
 // store.dispatch(orderCake());
